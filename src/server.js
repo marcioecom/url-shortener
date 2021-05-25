@@ -1,7 +1,7 @@
-import express from 'express'
+const express = require('express')
 require('dotenv').config()
-import mongoose from './database/index'
-import ShortUrl from './models/shortUrl'
+const mongoose = require('./database/index')
+const ShortUrl = require('./models/shortUrl')
 
 const port = process.env.PORT
 const app = express()
@@ -9,15 +9,15 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.set('view engine', 'ejs')
-app.use('/public', express.static(`${process.cwd()}/public`));
+app.set('views', process.cwd() + '/src/views')
 
 app.get('/', async (req, res) => {
   const shortUrls = await ShortUrl.find()
   res.render('index', { shortUrls: shortUrls })
 })
 
-app.post('/api/shorturl', async (req, res) => {
-  const urlBody = req.body.url
+app.post('/shorturl', async (req, res) => {
+  const urlBody = req.body.fullUrl
 
   const httpRegex = /^(http|https)(:\/\/)/
 
@@ -32,7 +32,7 @@ app.post('/api/shorturl', async (req, res) => {
   res.redirect('/')
 })
 
-app.get('/api/shorturl/:shortUrl', async (req, res) => {
+app.get('/:shortUrl', async (req, res) => {
   const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl })
 
   if (shortUrl == null) return res.sendStatus(404)
