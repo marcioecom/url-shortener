@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>URL Shortener Microservice</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="https://cdn.freecodecamp.org/universal/favicons/favicon-16x16.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container-sm mt-3">
+    <h1 class="m text-center">URL Shortener Microservice</h1>
+
+    <!-- Form -->
+    <form action="/shorturl" method="POST">
+      <div class="row g-3 justify-content-center">
+        <div class="col-auto">
+          <label for="fullUrl" class="col-form-label">URL:</label>
+        </div>
+        <div class="col-6">
+          <input required type="url" id="fullUrl" name="fullUrl" class="form-control" placeholder="https://google.com">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary">Post Url</button>
+        </div>
+      </div>
+    </form>
+    <br>
+    <!-- Table of Links -->
+    <div class="table-responsive-sm">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Full URL</th>
+            <th>Short URL</th>
+            <th>Clicks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% shortUrls.forEach(shortUrl=> { %>
+            <tr>
+              <td><a href="<%= shortUrl.full %>">
+                  <%= shortUrl.full %>
+                </a></td>
+              <td><a href="<%= shortUrl.short %>">
+                  <%= shortUrl.short %>
+                </a></td>
+              <td>
+                <%= shortUrl.clicks %>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <br>
+    <footer>
+      <p class="text-center">By <a href="https://www.instagram.com/marciojunior14/" target="_blank">Márcio Júnior</a>
+      </p>
+    </footer>
+  </div>
+</body>
+
+</html>
