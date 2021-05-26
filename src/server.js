@@ -25,6 +25,12 @@ app.post('/shorturl', async (req, res) => {
     return res.json({ error: 'invalid url' })
   }
 
+  const urlAlredyExists = await ShortUrl.findOne({ full: urlBody })
+
+  if (urlAlredyExists) {
+    return res.redirect('/')
+  }
+
   await ShortUrl.create({ full: urlBody })
 
   const shortUrl = await ShortUrl.findOne({ full: urlBody })
